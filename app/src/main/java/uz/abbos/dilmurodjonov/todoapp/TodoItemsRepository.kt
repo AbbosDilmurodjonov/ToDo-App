@@ -1,5 +1,7 @@
 package uz.abbos.dilmurodjonov.todoapp
 
+import uz.abbos.dilmurodjonov.todoapp.storage.ToDoItem
+
 class TodoItemsRepository {
 
     fun getToDoList(): List<ToDoItem> {

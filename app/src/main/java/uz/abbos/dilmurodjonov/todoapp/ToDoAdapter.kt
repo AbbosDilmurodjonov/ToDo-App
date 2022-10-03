@@ -6,6 +6,7 @@ import android.view.ViewGroup
 import android.widget.CheckBox
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import uz.abbos.dilmurodjonov.todoapp.storage.ToDoItem
 
 class ToDoAdapter(private val list: List<ToDoItem>?) :
     RecyclerView.Adapter<ToDoAdapter.ToDoHolder>() {
