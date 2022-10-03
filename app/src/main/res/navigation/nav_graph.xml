@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/fragmentToDoList">
+
+    <fragment
+        android:id="@+id/fragmentToDoList"
+        android:name="uz.abbos.dilmurodjonov.todoapp.FragmentToDoList"
+        android:label="FragmentToDoList" >
+        <action
+            android:id="@+id/action_fragmentToDoList_to_fragmentAddToDo"
+            app:destination="@id/fragmentAddToDo" />
+    </fragment>
+    <fragment
+        android:id="@+id/fragmentAddToDo"
+        android:name="uz.abbos.dilmurodjonov.todoapp.FragmentAddToDo"
+        android:label="FragmentAddToDo" />
+</navigation>

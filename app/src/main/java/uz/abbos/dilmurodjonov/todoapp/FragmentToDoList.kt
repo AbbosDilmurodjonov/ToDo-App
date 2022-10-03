@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 
@@ -25,11 +26,7 @@ class FragmentToDoList : Fragment() {
 
         val fab = view.findViewById<FloatingActionButton>(R.id.fab_add)
         fab.setOnClickListener {
-            activity?.supportFragmentManager
-                ?.beginTransaction()
-                ?.replace(R.id.fragment_container, FragmentAddToDo())
-                ?.addToBackStack(null)
-                ?.commit()
+            findNavController().navigate(R.id.action_fragmentToDoList_to_fragmentAddToDo)
         }
         return view
     }
