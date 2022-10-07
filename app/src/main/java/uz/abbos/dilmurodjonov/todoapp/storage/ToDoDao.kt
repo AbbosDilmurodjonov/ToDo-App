@@ -1,17 +1,18 @@
 package uz.abbos.dilmurodjonov.todoapp.storage
 
 import androidx.room.*
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface ToDoDao {
 
     @Query("SELECT * FROM TODO_LIST")
-    fun all(): List<ToDoItem>
+    fun all(): Flow<List<ToDoItem>>
 
-    @Insert
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
     fun insert(item: ToDoItem)
 
-    @Update
+    @Update(onConflict = OnConflictStrategy.IGNORE)
     fun update(item: ToDoItem)
 
     @Delete

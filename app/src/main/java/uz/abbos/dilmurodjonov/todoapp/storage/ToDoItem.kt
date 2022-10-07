@@ -3,11 +3,11 @@ package uz.abbos.dilmurodjonov.todoapp.storage
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import java.util.*
 
 @Entity(tableName = "todo_list")
 data class ToDoItem(
-
-    @PrimaryKey val id: String,
+    @PrimaryKey (autoGenerate = true) val id: Long = 0,
     @ColumnInfo(name = "text") val text: String,
     @ColumnInfo(name = "priority") val priority: String, // low, normal, high
     @ColumnInfo(name = "deadline") val deadline: String? = null,

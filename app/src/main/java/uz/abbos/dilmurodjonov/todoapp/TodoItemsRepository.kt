@@ -1,30 +1,30 @@
 package uz.abbos.dilmurodjonov.todoapp
 
+import android.content.Context
+import kotlinx.coroutines.flow.Flow
+import uz.abbos.dilmurodjonov.todoapp.storage.AppDatabase
+import uz.abbos.dilmurodjonov.todoapp.storage.ToDoDao
 import uz.abbos.dilmurodjonov.todoapp.storage.ToDoItem
 
-class TodoItemsRepository {
+class TodoItemsRepository(private val context: Context) {
+    private val executor = SerialExecutor()
 
-    fun getToDoList(): List<ToDoItem> {
-        val item = ToDoItem(
-            id = "00",
-            text = "Title",
-            priority = "Low",
-            isDone = 0,
-            createdDate = "2022-10-03 14:36"
-        )
+    private val dao
+        get(): ToDoDao = AppDatabase.instance(context).todoDao()
 
-        val list = mutableListOf(item)
+    fun getToDoList(): Flow<List<ToDoItem>> = dao.all()
 
-        for (i in 0 until 20) {
-            list.add(item)
-        }
-
-        return list
-    }
 
     fun insertToDo(data: ToDoItem) {
-
+        executor.execute { dao.insert(data) }
     }
 
+    fun updateToDo(data: ToDoItem) {
+        executor.execute { dao.update(data) }
+    }
+
+    fun deleteToDo(data: ToDoItem) {
+        executor.execute { dao.delete(data) }
+    }
 
 }

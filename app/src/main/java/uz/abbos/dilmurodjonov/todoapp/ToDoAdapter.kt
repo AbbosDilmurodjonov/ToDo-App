@@ -8,8 +8,14 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import uz.abbos.dilmurodjonov.todoapp.storage.ToDoItem
 
-class ToDoAdapter(private val list: List<ToDoItem>?) :
+class ToDoAdapter :
     RecyclerView.Adapter<ToDoAdapter.ToDoHolder>() {
+
+    var list: List<ToDoItem>? = null
+        set(value) {
+            field = value
+            notifyDataSetChanged()
+        }
 
     class ToDoHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private val flag: CheckBox = itemView.findViewById(R.id.checkbox)
@@ -30,8 +36,7 @@ class ToDoAdapter(private val list: List<ToDoItem>?) :
 
     override fun onBindViewHolder(holder: ToDoHolder, position: Int) {
         if (list == null) return
-
-        holder.bind(list[position])
+        holder.bind(list!![position])
     }
 
     override fun getItemCount(): Int {

@@ -5,42 +5,42 @@
     android:layout_height="match_parent">
 
     <EditText
-        android:id="@+id/edit_text"
+        android:id="@+id/editText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
-        android:id="@+id/btn_date"
+        android:id="@+id/btnDate"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="date"
-        app:layout_constraintTop_toBottomOf="@id/edit_text" />
+        app:layout_constraintTop_toBottomOf="@id/editText" />
 
     <Spinner
-        android:id="@+id/spinner_priority"
+        android:id="@+id/spinnerPriority"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/btn_date" />
+        app:layout_constraintTop_toBottomOf="@id/btnDate" />
 
     <Button
-        android:id="@+id/btn_delete"
+        android:id="@+id/btnDelete"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="delete"
-        app:layout_constraintTop_toBottomOf="@id/spinner_priority" />
+        app:layout_constraintTop_toBottomOf="@id/spinnerPriority" />
 
     <Button
-        android:id="@+id/btn_cancel"
+        android:id="@+id/btnCancel"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="cancel"
-        app:layout_constraintTop_toBottomOf="@id/btn_delete" />
+        app:layout_constraintTop_toBottomOf="@id/btnDelete" />
 
     <Button
-        android:id="@+id/btn_save"
+        android:id="@+id/btnSave"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="save"
-        app:layout_constraintTop_toBottomOf="@id/btn_cancel" />
+        app:layout_constraintTop_toBottomOf="@id/btnCancel" />
 </androidx.constraintlayout.widget.ConstraintLayout>
