@@ -1,45 +1,92 @@
 package uz.abbos.dilmurodjonov.todoapp
 
+import android.os.Bundle
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import android.widget.CheckBox
-import android.widget.TextView
+import androidx.recyclerview.widget.AsyncDifferConfig
+import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import uz.abbos.dilmurodjonov.todoapp.databinding.ItemTodoBinding
 import uz.abbos.dilmurodjonov.todoapp.storage.ToDoItem
 
 class ToDoAdapter :
-    RecyclerView.Adapter<ToDoAdapter.ToDoHolder>() {
+    ListAdapter<ToDoItem, ToDoAdapter.ItemToDoHolder>(
+        AsyncDifferConfig.Builder(DiffCallback()).build()
+    ) {
 
-    var list: List<ToDoItem>? = null
-        set(value) {
-            field = value
-            notifyDataSetChanged()
+    companion object {
+        private const val ARG_DONE = "arg.done"
+    }
+
+    private class DiffCallback : DiffUtil.ItemCallback<ToDoItem>() {
+        override fun areItemsTheSame(oldItem: ToDoItem, newItem: ToDoItem) =
+            oldItem.id == newItem.id
+
+        override fun areContentsTheSame(oldItem: ToDoItem, newItem: ToDoItem) =
+            oldItem == newItem
+
+        override fun getChangePayload(oldItem: ToDoItem, newItem: ToDoItem): Any? {
+            if (oldItem.id == newItem.id) {
+                return if (oldItem.isDone == newItem.isDone) {
+                    super.getChangePayload(oldItem, newItem)
+                } else {
+                    val diff = Bundle()
+                    diff.putBoolean(ARG_DONE, newItem.isDone == 1)
+                    diff
+                }
+            }
+
+            return super.getChangePayload(oldItem, newItem)
         }
+    }
 
-    class ToDoHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        private val flag: CheckBox = itemView.findViewById(R.id.checkbox)
-        private val text: TextView = itemView.findViewById(R.id.text_title)
+    class ItemToDoHolder(private val binding: ItemTodoBinding) :
+        RecyclerView.ViewHolder(binding.root) {
 
         fun bind(item: ToDoItem) {
-            flag.isChecked = item.isDone == 0
-            text.text = item.text
+            binding.checkbox.isChecked = item.isDone == 1
+            binding.textTitle.text = item.text
         }
+
+        fun update(bundle: Bundle) {
+            if (bundle.containsKey(ARG_DONE)) {
+                val checked = bundle.getBoolean(ARG_DONE)
+                binding.checkbox.isChecked = checked
+            }
+        }
+
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ToDoHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemToDoHolder {
         val inflater = LayoutInflater.from(parent.context)
-        val view = inflater.inflate(R.layout.item_todo, parent, false)
+        val binding = ItemTodoBinding.inflate(inflater, parent, false)
 
-        return ToDoHolder(view)
+        return ItemToDoHolder(binding)
     }
 
-    override fun onBindViewHolder(holder: ToDoHolder, position: Int) {
-        if (list == null) return
-        holder.bind(list!![position])
+    override fun onBindViewHolder(holder: ItemToDoHolder, position: Int) {
+        onBindViewHolder(holder, position, emptyList())
+    }
+
+    override fun onBindViewHolder(
+        holder: ItemToDoHolder,
+        position: Int,
+        payloads: List<Any>
+    ) {
+        val item = getItem(position)
+
+        if (payloads.isEmpty() || payloads[0] !is Bundle) {
+            holder.bind(item)
+        } else {
+            val bundle = payloads[0] as Bundle
+            holder.update(bundle)
+        }
     }
 
     override fun getItemCount(): Int {
-        return list?.size ?: 0
+        return currentList.size
     }
+
+
 }

@@ -8,13 +8,12 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.onCompletion
 import uz.abbos.dilmurodjonov.todoapp.R
 import uz.abbos.dilmurodjonov.todoapp.ToDoAdapter
 import uz.abbos.dilmurodjonov.todoapp.databinding.FragmentTodoListBinding
 
 class FragmentToDoList : Fragment() {
+
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -30,8 +29,8 @@ class FragmentToDoList : Fragment() {
         recycler.adapter = adapter
 
         viewLifecycleOwner.lifecycleScope.launchWhenStarted {
-            viewModel.getAll().collect{
-                adapter.list = it
+            viewModel.getAll().collect {
+                adapter.submitList(it)
             }
         }
 
