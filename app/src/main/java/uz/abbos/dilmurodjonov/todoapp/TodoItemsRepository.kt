@@ -13,18 +13,19 @@ class TodoItemsRepository(private val context: Context) {
         get(): ToDoDao = AppDatabase.instance(context).todoDao()
 
     fun getToDoList(): Flow<List<ToDoItem>> = dao.all()
+    fun getById(id: Long): Flow<ToDoItem?> = dao.byId(id)
 
 
-    fun insertToDo(data: ToDoItem) {
-        executor.execute { dao.insert(data) }
+    suspend fun insertToDo(data: ToDoItem) {
+        dao.insert(data)
     }
 
-    fun updateToDo(data: ToDoItem) {
-        executor.execute { dao.update(data) }
+    suspend fun updateToDo(data: ToDoItem) {
+        dao.update(data)
     }
 
-    fun deleteToDo(data: ToDoItem) {
-        executor.execute { dao.delete(data) }
+    suspend fun deleteToDo(data: ToDoItem) {
+        dao.delete(data)
     }
 
 }

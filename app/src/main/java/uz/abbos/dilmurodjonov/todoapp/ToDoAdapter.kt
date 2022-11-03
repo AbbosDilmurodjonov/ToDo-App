@@ -3,6 +3,7 @@ package uz.abbos.dilmurodjonov.todoapp
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.core.util.Consumer
 import androidx.recyclerview.widget.AsyncDifferConfig
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
@@ -10,7 +11,7 @@ import androidx.recyclerview.widget.RecyclerView
 import uz.abbos.dilmurodjonov.todoapp.databinding.ItemTodoBinding
 import uz.abbos.dilmurodjonov.todoapp.storage.ToDoItem
 
-class ToDoAdapter :
+class ToDoAdapter(private val action: Consumer<Long>) :
     ListAdapter<ToDoItem, ToDoAdapter.ItemToDoHolder>(
         AsyncDifferConfig.Builder(DiffCallback()).build()
     ) {
@@ -41,10 +42,11 @@ class ToDoAdapter :
         }
     }
 
-    class ItemToDoHolder(private val binding: ItemTodoBinding) :
+    class ItemToDoHolder(private val binding: ItemTodoBinding, private val action: Consumer<Long>) :
         RecyclerView.ViewHolder(binding.root) {
 
         fun bind(item: ToDoItem) {
+            binding.root.setOnClickListener { action.accept(item.id) }
             binding.checkbox.isChecked = item.isDone == 1
             binding.textTitle.text = item.text
         }
@@ -62,7 +64,7 @@ class ToDoAdapter :
         val inflater = LayoutInflater.from(parent.context)
         val binding = ItemTodoBinding.inflate(inflater, parent, false)
 
-        return ItemToDoHolder(binding)
+        return ItemToDoHolder(binding, action)
     }
 
     override fun onBindViewHolder(holder: ItemToDoHolder, position: Int) {

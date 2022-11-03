@@ -21,17 +21,18 @@ abstract class AppDatabase : RoomDatabase() {
         fun instance(context: Context): AppDatabase {
             if (database == null) {
                 synchronized(AppDatabase::class.java) {
-                    database = Room.databaseBuilder(
-                        context,
-                        AppDatabase::class.java,
-                        "database-name"
-                    ).fallbackToDestructiveMigration()
-                        .addCallback(roomCallback)
-                        .build()
+                    database = databaseBuilder(context)
                 }
             }
 
             return database!!
+        }
+
+        private fun databaseBuilder(context: Context): AppDatabase {
+            return Room.databaseBuilder(context, AppDatabase::class.java, "database-name")
+                .fallbackToDestructiveMigration()
+                .addCallback(roomCallback)
+                .build()
         }
 
         private val roomCallback: Callback = object : Callback() {}

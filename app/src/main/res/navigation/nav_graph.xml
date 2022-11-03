@@ -15,5 +15,10 @@
     <fragment
         android:id="@+id/fragmentAddToDo"
         android:name="uz.abbos.dilmurodjonov.todoapp.fragment.FragmentAddToDo"
-        android:label="FragmentAddToDo" />
+        android:label="FragmentAddToDo" >
+        <argument
+            android:name="toDoId"
+            app:argType="long"
+            android:defaultValue="0L" />
+    </fragment>
 </navigation>

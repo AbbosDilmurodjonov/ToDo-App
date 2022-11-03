@@ -9,12 +9,15 @@ interface ToDoDao {
     @Query("SELECT * FROM TODO_LIST")
     fun all(): Flow<List<ToDoItem>>
 
+    @Query("SELECT * FROM TODO_LIST WHERE ID = :id")
+    fun byId(id: Long): Flow<ToDoItem?>
+
     @Insert(onConflict = OnConflictStrategy.IGNORE)
-    fun insert(item: ToDoItem)
+    suspend fun insert(item: ToDoItem)
 
     @Update(onConflict = OnConflictStrategy.IGNORE)
-    fun update(item: ToDoItem)
+    suspend fun update(item: ToDoItem)
 
     @Delete
-    fun delete(item: ToDoItem)
+    suspend fun delete(item: ToDoItem)
 }
