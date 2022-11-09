@@ -6,13 +6,13 @@ import uz.abbos.dilmurodjonov.todoapp.domain.enums.TaskPriority
 
 internal enum class TaskImportanceApiModel {
 
-    @SerializedName("LOW")
+    @SerializedName("low")
     LOW,
 
-    @SerializedName("BASIC")
+    @SerializedName("basic")
     BASIC,
 
-    @SerializedName("IMPORTANCE")
+    @SerializedName("importance")
     IMPORTANCE,
 
     @SerializedName("")
