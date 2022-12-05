@@ -76,7 +76,7 @@ class NetworkService(private val context: Context) {
     private val todoService = retrofit.create(TasksService::class.java)
 
     suspend fun getAllToDo(): List<TasksEntityModel> = withContext(Dispatchers.Default) {
-        todoService.getAll().body() // TODO
+        todoService.getByPage().body() // TODO
         listOf()
     }
 }

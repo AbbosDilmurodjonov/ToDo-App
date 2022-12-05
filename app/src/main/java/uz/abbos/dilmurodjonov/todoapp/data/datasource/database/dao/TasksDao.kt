@@ -1,20 +1,22 @@
 package uz.abbos.dilmurodjonov.todoapp.data.datasource.database.dao
 
 import androidx.room.*
-import kotlinx.coroutines.flow.Flow
 import uz.abbos.dilmurodjonov.todoapp.data.datasource.database.model.TasksEntityModel
 
 @Dao
 internal interface TasksDao {
 
     @Query("SELECT * FROM TASKS")
-    fun getAll(): Flow<List<TasksEntityModel>>
+    suspend fun getAll(): List<TasksEntityModel>
 
     @Query("SELECT * FROM TASKS WHERE ID = :id")
-    fun getOneById(id: Long): Flow<TasksEntityModel?>
+    suspend fun getOneById(id: Long): TasksEntityModel?
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insert(vararg tasks: TasksEntityModel)
+    suspend fun insert(task: TasksEntityModel): Long
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insert(vararg tasks: TasksEntityModel): LongArray
 
     @Update(onConflict = OnConflictStrategy.IGNORE)
     suspend fun update(vararg tasks: TasksEntityModel)

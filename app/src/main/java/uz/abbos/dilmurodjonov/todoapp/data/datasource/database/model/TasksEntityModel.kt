@@ -18,13 +18,26 @@ internal data class TasksEntityModel(
     @ColumnInfo(name = "is_done") val isDone: Boolean = false,
     @ColumnInfo(name = "created_date") val createdDate: Date,
     @ColumnInfo(name = "updated_date") val updatedDate: Date?
-)
+) {
+    companion object {
+        fun fromDomainModel(task: Task): TasksEntityModel =
+            TasksEntityModel(
+                id = task.id,
+                text = task.text,
+                priority = TaskPriorityEntityModel.fromDomainModel(task.priority),
+                deadline = task.deadline,
+                isDone = task.isDone,
+                createdDate = task.createdDate,
+                updatedDate = task.updatedDate
+            )
+    }
+}
 
 internal fun TasksEntityModel.toDomainModel() =
     Task(
         id = this.id,
         text = this.text,
-        priority = priority.toDomainModel(),
+        priority = this.priority.toDomainModel(),
         deadline = this.deadline,
         isDone = this.isDone,
         createdDate = this.createdDate,

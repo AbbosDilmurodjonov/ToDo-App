@@ -1,14 +1,14 @@
 package uz.abbos.dilmurodjonov.todoapp.data.datasource.api.service
 
 import retrofit2.http.*
+import uz.abbos.dilmurodjonov.todoapp.common.data.retrofit.ApiResult
 import uz.abbos.dilmurodjonov.todoapp.data.datasource.api.response.TaskListResponse
 import uz.abbos.dilmurodjonov.todoapp.data.datasource.api.response.TaskResponse
-import uz.abbos.dilmurodjonov.todoapp.common.data.retrofit.ApiResult
 
 internal interface TasksService {
 
     @GET("list")
-    suspend fun getAll(
+    suspend fun getByPage(
         @Query("page") page: Int,
         @Query("perPage") count: Int = 100
     ): ApiResult<TaskListResponse>
