@@ -1,4 +1,4 @@
-package uz.abbos.dilmurodjonov.todoapp._old
+package uz.abbos.dilmurodjonov.todoapp.ui.activity
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity

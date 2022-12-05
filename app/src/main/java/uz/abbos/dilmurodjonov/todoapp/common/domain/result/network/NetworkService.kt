@@ -1,4 +1,4 @@
-package uz.abbos.dilmurodjonov.todoapp._old.network
+package uz.abbos.dilmurodjonov.todoapp.common.domain.result.network
 
 import android.content.Context
 import com.chuckerteam.chucker.api.ChuckerCollector
