@@ -11,17 +11,17 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
-        android:id="@+id/btnDate"
+        android:id="@+id/buttonDeadline"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="date"
+        android:text="Deadline"
         app:layout_constraintTop_toBottomOf="@id/editText" />
 
     <Spinner
         android:id="@+id/spinnerPriority"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/btnDate" />
+        app:layout_constraintTop_toBottomOf="@id/buttonDeadline" />
 
     <Button
         android:id="@+id/btnDelete"

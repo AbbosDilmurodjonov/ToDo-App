@@ -8,7 +8,7 @@ import uz.abbos.dilmurodjonov.todoapp.data.datasource.api.model.UserApiModel
 import uz.abbos.dilmurodjonov.todoapp.data.datasource.api.response.GetUserResponse
 import uz.abbos.dilmurodjonov.todoapp.domain.entities.User
 
-internal interface UserService {
+ interface UserService {
 
     @GET("user")
     fun getUser(): ApiResult<GetUserResponse>

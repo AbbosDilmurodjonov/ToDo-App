@@ -7,7 +7,7 @@ import uz.abbos.dilmurodjonov.todoapp.domain.entities.Task
 import uz.abbos.dilmurodjonov.todoapp.domain.enums.TaskPriority
 import java.util.*
 
-internal data class TaskApiModel(
+ data class TaskApiModel(
     @SerializedName("id") val id: Long? = null,
     @SerializedName("text") val text: String? = null,
     @SerializedName("importance") val importance: TaskImportanceApiModel? = null,
@@ -19,7 +19,7 @@ internal data class TaskApiModel(
     @SerializedName("last_updated_by") val lastUpdatedBy: String? = null
 )
 
-internal fun TaskApiModel.toEntityModel() =
+ fun TaskApiModel.toEntityModel() =
     TasksEntityModel(
         id = this.id ?: 0,
         text = this.text ?: "",
@@ -31,7 +31,7 @@ internal fun TaskApiModel.toEntityModel() =
     )
 
 
-internal fun TaskApiModel.toDomainModel() =
+ fun TaskApiModel.toDomainModel() =
     Task(
         id = this.id ?: 0,
         text = this.text ?: "",

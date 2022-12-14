@@ -8,7 +8,7 @@ import uz.abbos.dilmurodjonov.todoapp.domain.entities.Task
 import uz.abbos.dilmurodjonov.todoapp.domain.exceptions.NotFoundException
 import uz.abbos.dilmurodjonov.todoapp.domain.repository.TaskRepository
 
-internal class TaskRepositoryImpl(
+ class TaskRepositoryImpl(
     private val tasksService: TasksService,
     private val tasksDao: TasksDao,
 ) : TaskRepository {

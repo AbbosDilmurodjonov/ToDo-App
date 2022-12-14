@@ -10,7 +10,7 @@ import java.util.*
     TaskDateEntityTypeConverter::class,
     TaskBooleanEntityTypeConverter::class
 )
-internal data class TasksEntityModel(
+ data class TasksEntityModel(
     @PrimaryKey(autoGenerate = true) val id: Long = 0,
     @ColumnInfo(name = "text") val text: String,
     @ColumnInfo(name = "priority") val priority: TaskPriorityEntityModel,
@@ -33,7 +33,7 @@ internal data class TasksEntityModel(
     }
 }
 
-internal fun TasksEntityModel.toDomainModel() =
+ fun TasksEntityModel.toDomainModel() =
     Task(
         id = this.id,
         text = this.text,
@@ -44,7 +44,7 @@ internal fun TasksEntityModel.toDomainModel() =
         updatedDate = this.updatedDate
     )
 
-internal class TaskPriorityEntityTypeConverter {
+ class TaskPriorityEntityTypeConverter {
     @TypeConverter
     fun enumToString(priority: TaskPriorityEntityModel) = priority.name
 
@@ -52,7 +52,7 @@ internal class TaskPriorityEntityTypeConverter {
     fun stringToEnum(value: String) = TaskPriorityEntityModel.valueOf(value)
 }
 
-internal class TaskDateEntityTypeConverter {
+ class TaskDateEntityTypeConverter {
     @TypeConverter
     fun dateToLong(date: Date?) = date?.time
 
@@ -60,7 +60,7 @@ internal class TaskDateEntityTypeConverter {
     fun longToDate(value: Long?) = value?.let { Date(it) }
 }
 
-internal class TaskBooleanEntityTypeConverter {
+ class TaskBooleanEntityTypeConverter {
     @TypeConverter
     fun boolToInt(isDone: Boolean) = if (isDone) 1 else 0
 

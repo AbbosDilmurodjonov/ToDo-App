@@ -5,21 +5,20 @@
     android:layout_height="wrap_content">
 
     <CheckBox
-        android:id="@+id/checkbox"
+        android:id="@+id/checkboxDone"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/textTitle"
+        android:id="@+id/textTaskTitle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:ellipsize="end"
         android:maxLines="3"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/checkbox"
+        app:layout_constraintStart_toEndOf="@id/checkboxDone"
         app:layout_constraintTop_toTopOf="parent" />
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>

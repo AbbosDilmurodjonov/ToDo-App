@@ -5,7 +5,7 @@ import uz.abbos.dilmurodjonov.todoapp.common.data.retrofit.ApiResult
 import uz.abbos.dilmurodjonov.todoapp.data.datasource.api.response.TaskListResponse
 import uz.abbos.dilmurodjonov.todoapp.data.datasource.api.response.TaskResponse
 
-internal interface TasksService {
+interface TasksService {
 
     @GET("list")
     suspend fun getByPage(

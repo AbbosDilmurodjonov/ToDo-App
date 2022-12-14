@@ -1,5 +1,5 @@
 package uz.abbos.dilmurodjonov.todoapp.domain.enums
 
-internal enum class TaskPriority {
+ enum class TaskPriority {
     LOW, BASIC, IMPORTANT
 }

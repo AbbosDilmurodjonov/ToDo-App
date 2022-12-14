@@ -13,7 +13,7 @@ import uz.abbos.dilmurodjonov.todoapp.data.datasource.database.model.TasksEntity
     exportSchema = true,
     autoMigrations = []
 )
-internal abstract class AppDatabase : RoomDatabase() {
+ abstract class AppDatabase : RoomDatabase() {
 
     abstract fun todoDao(): TasksDao
 

@@ -2,23 +2,24 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/fragmentToDoList">
+    app:startDestination="@id/fragmentTaskList">
 
     <fragment
-        android:id="@+id/fragmentToDoList"
-        android:name="uz.abbos.dilmurodjonov.todoapp._old.fragment.FragmentToDoList"
-        android:label="FragmentToDoList" >
+        android:id="@+id/fragmentTaskList"
+        android:name="uz.abbos.dilmurodjonov.todoapp.ui.tasklist.TaskListFragment"
+        android:label="FragmentTaskList">
         <action
-            android:id="@+id/action_fragmentToDoList_to_fragmentAddToDo"
-            app:destination="@id/fragmentAddToDo" />
+            android:id="@+id/action_fragmentTaskList_to_fragmentTaskDetail"
+            app:destination="@id/fragmentTaskDetail" />
     </fragment>
+
     <fragment
-        android:id="@+id/fragmentAddToDo"
-        android:name="uz.abbos.dilmurodjonov.todoapp._old.fragment.FragmentAddToDo"
-        android:label="FragmentAddToDo" >
+        android:id="@+id/fragmentTaskDetail"
+        android:name="uz.abbos.dilmurodjonov.todoapp.ui.taskdetail.TaskDetailFragment"
+        android:label="FragmentTaskDetail">
         <argument
-            android:name="toDoId"
-            app:argType="long"
-            android:defaultValue="0L" />
+            android:name="taskId"
+            android:defaultValue="0L"
+            app:argType="long" />
     </fragment>
 </navigation>

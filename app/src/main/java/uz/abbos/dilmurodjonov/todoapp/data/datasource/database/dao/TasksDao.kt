@@ -4,7 +4,7 @@ import androidx.room.*
 import uz.abbos.dilmurodjonov.todoapp.data.datasource.database.model.TasksEntityModel
 
 @Dao
-internal interface TasksDao {
+ interface TasksDao {
 
     @Query("SELECT * FROM TASKS")
     suspend fun getAll(): List<TasksEntityModel>

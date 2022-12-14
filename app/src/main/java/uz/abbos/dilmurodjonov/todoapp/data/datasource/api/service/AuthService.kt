@@ -7,7 +7,7 @@ import retrofit2.http.POST
 import uz.abbos.dilmurodjonov.todoapp.common.data.retrofit.ApiResult
 import uz.abbos.dilmurodjonov.todoapp.data.datasource.api.response.AuthResponse
 
-internal interface AuthService {
+ interface AuthService {
 
     @POST("sign-up")
     @Headers("Content-Type: application/x-www-form-urlencoded")

@@ -1,20 +1,31 @@
 package uz.abbos.dilmurodjonov.todoapp.ui.tasklist
 
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.ViewModelProvider.AndroidViewModelFactory.Companion.APPLICATION_KEY
 import androidx.lifecycle.liveData
-import uz.abbos.dilmurodjonov.todoapp.domain.entities.Task
+import androidx.lifecycle.viewmodel.initializer
+import androidx.lifecycle.viewmodel.viewModelFactory
+import uz.abbos.dilmurodjonov.todoapp.App
 import uz.abbos.dilmurodjonov.todoapp.domain.usecases.GetTaskListUseCase
 
-internal class TaskListViewModel(
+class TaskListViewModel(
     private val getTaskListUseCase: GetTaskListUseCase,
 ) : ViewModel() {
 
-    fun getTaskList(): LiveData<List<Task>> {
-        return liveData {
-            getTaskListUseCase.invoke().also {
-                if (it.isSuccess) it.getOrThrow()
+    companion object {
+        val Factory: ViewModelProvider.Factory = viewModelFactory {
+            initializer {
+                val getTaskListUseCase = (this[APPLICATION_KEY] as App).getTaskListUseCase
+                TaskListViewModel(getTaskListUseCase)
             }
         }
     }
+
+    fun getTaskList() = liveData {
+        getTaskListUseCase.invoke().also {
+            if (it.isSuccess) emit(it.getOrDefault(emptyList()))
+        }
+    }
+
 }

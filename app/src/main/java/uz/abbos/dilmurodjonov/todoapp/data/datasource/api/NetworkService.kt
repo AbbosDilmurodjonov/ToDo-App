@@ -70,5 +70,5 @@ class NetworkService(context: Context) {
         .addConverterFactory(GsonConverterFactory.create())
         .build()
 
-    private val taskService = retrofit.create(TasksService::class.java)
+     val taskService = retrofit.create(TasksService::class.java)
 }

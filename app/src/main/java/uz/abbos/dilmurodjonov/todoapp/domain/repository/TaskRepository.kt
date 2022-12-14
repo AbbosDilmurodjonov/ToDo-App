@@ -2,7 +2,7 @@ package uz.abbos.dilmurodjonov.todoapp.domain.repository
 
 import uz.abbos.dilmurodjonov.todoapp.domain.entities.Task
 
-internal interface TaskRepository {
+interface TaskRepository {
 
     suspend fun getTaskList(): Result<List<Task>>
 
