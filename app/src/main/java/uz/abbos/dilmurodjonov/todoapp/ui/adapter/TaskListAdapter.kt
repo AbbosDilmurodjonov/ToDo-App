@@ -5,13 +5,15 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.AsyncDifferConfig
 import androidx.recyclerview.widget.ListAdapter
-import uz.abbos.dilmurodjonov.todoapp.data.datasource.database.model.TasksEntityModel
 import uz.abbos.dilmurodjonov.todoapp.databinding.ItemTaskBinding
 import uz.abbos.dilmurodjonov.todoapp.domain.entities.Task
 import uz.abbos.dilmurodjonov.todoapp.ui.adapter.diffcallbacks.TaskListDiffCallback
 import uz.abbos.dilmurodjonov.todoapp.ui.adapter.holders.TaskViewHolder
 
-class TaskListAdapter(private val action: (Long) -> Unit) :
+class TaskListAdapter(
+    private val showDetails: (id: Long) -> Unit,
+    private val updateContent: (id: Long, checked: Boolean) -> Unit,
+) :
     ListAdapter<Task, TaskViewHolder>(
         AsyncDifferConfig.Builder(TaskListDiffCallback()).build()
     ) {
@@ -20,7 +22,7 @@ class TaskListAdapter(private val action: (Long) -> Unit) :
         val inflater = LayoutInflater.from(parent.context)
         val binding = ItemTaskBinding.inflate(inflater, parent, false)
 
-        return TaskViewHolder(binding, action)
+        return TaskViewHolder(binding, showDetails, updateContent)
     }
 
     override fun onBindViewHolder(holder: TaskViewHolder, position: Int) {

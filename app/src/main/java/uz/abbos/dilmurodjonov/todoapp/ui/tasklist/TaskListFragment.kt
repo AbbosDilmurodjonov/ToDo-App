@@ -1,6 +1,7 @@
 package uz.abbos.dilmurodjonov.todoapp.ui.tasklist
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,7 +15,12 @@ import uz.abbos.dilmurodjonov.todoapp.ui.adapter.TaskListAdapter
 class TaskListFragment : Fragment() {
 
     private val viewModel: TaskListViewModel by viewModels { TaskListViewModel.Factory }
-    private val adapter: TaskListAdapter by lazy { TaskListAdapter(this::navigateToDetails) }
+    private val adapter: TaskListAdapter by lazy {
+        TaskListAdapter(
+            this::navigateToDetails,
+            viewModel::updateTask
+        )
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
@@ -33,6 +39,7 @@ class TaskListFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         viewLifecycleOwner.lifecycleScope.launchWhenStarted {
             viewModel.getTaskList().observe(viewLifecycleOwner) {
+                Log.d(TaskListFragment::class.simpleName, "onViewCreated: " + it.size)
                 adapter.submitList(it.toMutableList())
             }
         }
@@ -46,5 +53,9 @@ class TaskListFragment : Fragment() {
         }
 
         findNavController().navigate(direction)
+    }
+
+    private fun updateContent(id: Long, checked: Boolean) {
+        viewModel.updateTask(id, checked)
     }
 }

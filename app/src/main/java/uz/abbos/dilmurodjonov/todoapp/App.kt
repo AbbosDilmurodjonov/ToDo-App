@@ -30,6 +30,7 @@ class App : Application() {
     val getTaskUseCase: GetTaskUseCase get() = GetTaskUseCase(taskRepository)
     val addTaskUseCase: AddTaskUseCase get() = AddTaskUseCase(taskRepository)
     val updateTaskUseCase: UpdateTaskUseCase get() = UpdateTaskUseCase(taskRepository)
+    val updateTaskStatusUseCase: UpdateTaskStatusUseCase get() = UpdateTaskStatusUseCase(taskRepository)
     val deleteTaskUseCase: DeleteTaskUseCase get() = DeleteTaskUseCase(taskRepository)
 
     private val taskService

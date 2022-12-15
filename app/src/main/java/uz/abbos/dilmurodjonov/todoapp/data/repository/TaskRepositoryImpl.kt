@@ -8,7 +8,7 @@ import uz.abbos.dilmurodjonov.todoapp.domain.entities.Task
 import uz.abbos.dilmurodjonov.todoapp.domain.exceptions.NotFoundException
 import uz.abbos.dilmurodjonov.todoapp.domain.repository.TaskRepository
 
- class TaskRepositoryImpl(
+class TaskRepositoryImpl(
     private val tasksService: TasksService,
     private val tasksDao: TasksDao,
 ) : TaskRepository {
@@ -48,6 +48,15 @@ import uz.abbos.dilmurodjonov.todoapp.domain.repository.TaskRepository
             ?: return Result.failure(NotFoundException())
 
         return Result.success(result.toDomainModel())
+    }
+
+    override suspend fun updateTaskStatus(id: Long, checked: Boolean): Result<Task> {
+        tasksDao.updateStatus(id, checked)
+
+        val model = tasksDao.getOneById(id)
+            ?: return Result.failure(NotFoundException())
+
+        return Result.success(model.toDomainModel())
     }
 
     override suspend fun deleteTask(id: Long): Result<Task> {

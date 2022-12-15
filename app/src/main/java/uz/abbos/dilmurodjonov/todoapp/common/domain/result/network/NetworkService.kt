@@ -17,14 +17,16 @@ import java.util.concurrent.TimeUnit
 
 class NetworkService(private val context: Context) {
 
-    private val client = OkHttpClient.Builder()
-        .connectTimeout(10, TimeUnit.SECONDS)
-        .readTimeout(20, TimeUnit.SECONDS)
-        .writeTimeout(20, TimeUnit.SECONDS)
-        .addInterceptor(provideHttpLoggingInterceptor())
-        .addInterceptor(provideChuckerInterceptor(context))
-        .addInterceptor(provideAuthInterceptor())
-        .build()
+    private val client by lazy {
+        OkHttpClient.Builder()
+            .connectTimeout(10, TimeUnit.SECONDS)
+            .readTimeout(20, TimeUnit.SECONDS)
+            .writeTimeout(20, TimeUnit.SECONDS)
+            .addInterceptor(provideHttpLoggingInterceptor())
+            .addInterceptor(provideChuckerInterceptor(context))
+            .addInterceptor(provideAuthInterceptor())
+            .build()
+    }
 
     private fun provideHttpLoggingInterceptor(): Interceptor {
         val interceptor = HttpLoggingInterceptor()
@@ -67,12 +69,13 @@ class NetworkService(private val context: Context) {
         return interceptor
     }
 
-    private val retrofit = Retrofit.Builder()
-        .baseUrl("BASE_URL")
-        .client(client)
-        .addConverterFactory(GsonConverterFactory.create())
-        .build()
-
+    private val retrofit by lazy {
+        Retrofit.Builder()
+            .baseUrl("http://localhost:8080")
+            .client(client)
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+    }
     private val todoService = retrofit.create(TasksService::class.java)
 
     suspend fun getAllToDo(): List<TasksEntityModel> = withContext(Dispatchers.Default) {

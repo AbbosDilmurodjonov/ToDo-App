@@ -6,11 +6,21 @@ import uz.abbos.dilmurodjonov.todoapp.databinding.ItemTaskBinding
 import uz.abbos.dilmurodjonov.todoapp.domain.entities.Task
 import uz.abbos.dilmurodjonov.todoapp.ui.adapter.diffcallbacks.ARG_TASK_DONE
 
-class TaskViewHolder(private val binding: ItemTaskBinding, private val action: (Long) -> Unit) :
+class TaskViewHolder(
+    private val binding: ItemTaskBinding,
+    private val showDetails: (id: Long) -> Unit,
+    private val updateContent: (id: Long, checked: Boolean) -> Unit
+) :
     RecyclerView.ViewHolder(binding.root) {
 
     fun bind(item: Task) {
-        binding.root.setOnClickListener { action.invoke(item.id) }
+        binding.root.setOnClickListener { showDetails.invoke(item.id) }
+        binding.checkboxDone.setOnCheckedChangeListener { _, isChecked ->
+            updateContent.invoke(
+                item.id,
+                isChecked
+            )
+        }
 
         binding.checkboxDone.isChecked = item.isDone
         binding.textTaskTitle.text = item.text

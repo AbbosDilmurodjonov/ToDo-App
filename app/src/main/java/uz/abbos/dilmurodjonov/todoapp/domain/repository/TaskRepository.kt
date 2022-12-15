@@ -12,5 +12,7 @@ interface TaskRepository {
 
     suspend fun updateTask(task: Task): Result<Task>
 
+    suspend fun updateTaskStatus(id: Long, checked: Boolean): Result<Task>
+
     suspend fun deleteTask(id: Long): Result<Task>
 }

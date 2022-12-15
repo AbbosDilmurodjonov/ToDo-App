@@ -14,15 +14,16 @@ import java.util.concurrent.TimeUnit
 
 class NetworkService(context: Context) {
 
-    private val client = OkHttpClient.Builder()
-        .connectTimeout(10, TimeUnit.SECONDS)
-        .readTimeout(20, TimeUnit.SECONDS)
-        .writeTimeout(20, TimeUnit.SECONDS)
-        .addInterceptor(provideHttpLoggingInterceptor())
-        .addInterceptor(provideChuckerInterceptor(context))
-        .addInterceptor(provideAuthInterceptor("SOME_TOKEN"))
-        .build()
-
+    private val client by lazy {
+        OkHttpClient.Builder()
+            .connectTimeout(10, TimeUnit.SECONDS)
+            .readTimeout(20, TimeUnit.SECONDS)
+            .writeTimeout(20, TimeUnit.SECONDS)
+            .addInterceptor(provideHttpLoggingInterceptor())
+            .addInterceptor(provideChuckerInterceptor(context))
+            .addInterceptor(provideAuthInterceptor("SOME_TOKEN"))
+            .build()
+    }
     private fun provideHttpLoggingInterceptor(): Interceptor {
         val interceptor = HttpLoggingInterceptor()
         interceptor.level = HttpLoggingInterceptor.Level.BODY
@@ -64,11 +65,13 @@ class NetworkService(context: Context) {
         return interceptor
     }
 
-    private val retrofit = Retrofit.Builder()
-        .baseUrl("BASE_URL")
-        .client(client)
-        .addConverterFactory(GsonConverterFactory.create())
-        .build()
+    private val retrofit by lazy {
+        Retrofit.Builder()
+            .baseUrl("http://localhost:8080")
+            .client(client)
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+    }
 
-     val taskService = retrofit.create(TasksService::class.java)
+     val taskService: TasksService = retrofit.create(TasksService::class.java)
 }
