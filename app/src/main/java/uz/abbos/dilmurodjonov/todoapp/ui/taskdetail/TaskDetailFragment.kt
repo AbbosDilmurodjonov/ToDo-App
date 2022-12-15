@@ -11,6 +11,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import kotlinx.coroutines.launch
 import uz.abbos.dilmurodjonov.todoapp.databinding.FragmentTaskDetailBinding
 import java.util.*
 
@@ -31,6 +32,7 @@ class TaskDetailFragment : Fragment() {
         viewModel.taskId = args.taskId
         configureBackBtn()
         configureDeadlineBtn()
+        configureDeleteBtn()
         configureSaveBtn()
         configurePrioritySpinner()
 
@@ -83,8 +85,19 @@ class TaskDetailFragment : Fragment() {
                 viewModel.taskContent = it
             }
 
-            viewModel.saveTask()
-            onBack()
+            lifecycleScope.launch {
+                viewModel.saveTask()
+                onBack()
+            }
+        }
+    }
+
+    private fun configureDeleteBtn() {
+        binding.btnDelete.setOnClickListener {
+            lifecycleScope.launch {
+                viewModel.deleteTask()
+                onBack()
+            }
         }
     }
 

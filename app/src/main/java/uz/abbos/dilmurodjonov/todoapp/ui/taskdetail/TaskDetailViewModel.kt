@@ -119,9 +119,7 @@ class TaskDetailViewModel(
         }
     }
 
-    private fun deleteTask(task: Task) {
-        viewModelScope.launch {
-            deleteTaskUseCase.invoke(task.id)
-        }
+    suspend fun deleteTask() {
+        deleteTaskUseCase.invoke(taskId)
     }
 }
