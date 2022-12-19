@@ -7,6 +7,7 @@ import uz.abbos.dilmurodjonov.todoapp.data.datasource.api.service.TasksService
 import uz.abbos.dilmurodjonov.todoapp.data.datasource.database.AppDatabase
 import uz.abbos.dilmurodjonov.todoapp.data.datasource.database.dao.TasksDao
 import uz.abbos.dilmurodjonov.todoapp.data.repository.TaskRepositoryImpl
+import uz.abbos.dilmurodjonov.todoapp.di.AppComponent
 import uz.abbos.dilmurodjonov.todoapp.domain.repository.TaskRepository
 import uz.abbos.dilmurodjonov.todoapp.domain.usecases.*
 
@@ -15,6 +16,12 @@ import uz.abbos.dilmurodjonov.todoapp.domain.usecases.*
  * as long as application lives.
  */
 class App : Application() {
+
+    val appComponent:AppComponent = DaggerAppComponent.create()
+
+
+
+
     private var _taskService: TasksService? = null
     private var _taskDao: TasksDao? = null
     private var _taskRepository: TaskRepository? = null

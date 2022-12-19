@@ -1,25 +1,33 @@
 package uz.abbos.dilmurodjonov.todoapp.ui.tasklist
 
+import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import uz.abbos.dilmurodjonov.todoapp.databinding.FragmentTaskListBinding
+import uz.abbos.dilmurodjonov.todoapp.ui.activity.MainActivity
 import uz.abbos.dilmurodjonov.todoapp.ui.adapter.TaskListAdapter
+import javax.inject.Inject
 
 class TaskListFragment : Fragment() {
 
-    private val viewModel: TaskListViewModel by viewModels { TaskListViewModel.Factory }
+    @Inject
+    lateinit var viewModel: TaskListViewModel // by viewModels { TaskListViewModel.Factory }
     private val adapter: TaskListAdapter by lazy {
         TaskListAdapter(
             this::navigateToDetails,
             viewModel::updateTask
         )
+    }
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        (activity as MainActivity).taskComponent.inject(this)
     }
 
     override fun onCreateView(

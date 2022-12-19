@@ -9,10 +9,13 @@ import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import kotlinx.coroutines.launch
 import uz.abbos.dilmurodjonov.todoapp.App
+import uz.abbos.dilmurodjonov.todoapp.di.scope.ActivityScope
 import uz.abbos.dilmurodjonov.todoapp.domain.usecases.GetTaskListUseCase
 import uz.abbos.dilmurodjonov.todoapp.domain.usecases.UpdateTaskStatusUseCase
+import javax.inject.Inject
 
-class TaskListViewModel(
+@ActivityScope
+class TaskListViewModel @Inject constructor(
     private val getTaskListUseCase: GetTaskListUseCase,
     private val updateTaskStatusUseCase: UpdateTaskStatusUseCase,
 ) : ViewModel() {
