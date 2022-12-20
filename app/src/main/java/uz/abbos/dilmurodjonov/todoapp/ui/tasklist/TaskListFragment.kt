@@ -1,5 +1,6 @@
 package uz.abbos.dilmurodjonov.todoapp.ui.tasklist
 
+import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -9,17 +10,31 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import uz.abbos.dilmurodjonov.todoapp.appComponent
 import uz.abbos.dilmurodjonov.todoapp.databinding.FragmentTaskListBinding
 import uz.abbos.dilmurodjonov.todoapp.ui.adapter.TaskListAdapter
+import javax.inject.Inject
 
 class TaskListFragment : Fragment() {
 
-    private val viewModel: TaskListViewModel by viewModels { TaskListViewModel.Factory }
+    private val viewModel: TaskListViewModel by viewModels { factory.get() }
+
+    @Inject
+    lateinit var factory: dagger.Lazy<TaskListViewModelFactory>
+
     private val adapter: TaskListAdapter by lazy {
         TaskListAdapter(
             this::navigateToDetails,
             viewModel::updateTask
         )
+    }
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        context.appComponent
+            .featureTaskListComponent()
+            .build()
+            .inject(this)
     }
 
     override fun onCreateView(
@@ -53,9 +68,5 @@ class TaskListFragment : Fragment() {
         }
 
         findNavController().navigate(direction)
-    }
-
-    private fun updateContent(id: Long, checked: Boolean) {
-        viewModel.updateTask(id, checked)
     }
 }

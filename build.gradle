@@ -28,5 +28,6 @@ ext{
     lifecycle_version = '2.4.1'
     okhttp = '4.10.0'
     chucker = '3.5.2'
+    dagger2 = '2.44.2'
 
 }

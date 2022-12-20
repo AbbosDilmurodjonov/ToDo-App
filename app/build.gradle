@@ -81,6 +81,10 @@ dependencies {
     // OkHttp
     implementation "com.squareup.okhttp3:logging-interceptor:$okhttp"
 
+    // Dagger2
+    implementation "com.google.dagger:dagger:$dagger2"
+    kapt "com.google.dagger:dagger-compiler:$dagger2"
+
     /******* Debugging *******/
     // Chunker
     debugImplementation "com.github.chuckerteam.chucker:library:$chucker"

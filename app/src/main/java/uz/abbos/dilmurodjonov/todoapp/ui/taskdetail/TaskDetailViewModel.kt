@@ -36,26 +36,6 @@ class TaskDetailViewModel(
     val taskDeadlineText: String get() = sdf.format(taskDeadline.time)
     var taskPriorityPosition: Int = 0
 
-    companion object {
-        val Factory = viewModelFactory {
-            initializer {
-                val app = this[APPLICATION_KEY] as App
-
-                val getTaskUseCase = app.getTaskUseCase
-                val addTaskUseCase = app.addTaskUseCase
-                val updateTaskUseCase = app.updateTaskUseCase
-                val deleteTaskUseCase = app.deleteTaskUseCase
-
-                TaskDetailViewModel(
-                    getTaskUseCase,
-                    addTaskUseCase,
-                    updateTaskUseCase,
-                    deleteTaskUseCase
-                )
-            }
-        }
-    }
-
     fun setTaskDeadline(year: Int, month: Int, day: Int): String {
         taskDeadline.set(Calendar.YEAR, year)
         taskDeadline.set(Calendar.MONTH, month)

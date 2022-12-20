@@ -1,37 +1,53 @@
-package uz.abbos.dilmurodjonov.todoapp.data.datasource.api
+package uz.abbos.dilmurodjonov.todoapp.di.module
 
 import android.content.Context
 import com.chuckerteam.chucker.api.ChuckerCollector
 import com.chuckerteam.chucker.api.ChuckerInterceptor
 import com.chuckerteam.chucker.api.RetentionManager
+import dagger.Module
+import dagger.Provides
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
-import uz.abbos.dilmurodjonov.todoapp.data.datasource.api.service.TasksService
+import uz.abbos.dilmurodjonov.todoapp.di.qualifier.ApiKeyQualifier
+import uz.abbos.dilmurodjonov.todoapp.di.qualifier.AuthInterceptorQualifier
+import uz.abbos.dilmurodjonov.todoapp.di.qualifier.ChuckerInterceptorQualifier
+import uz.abbos.dilmurodjonov.todoapp.di.qualifier.LoggingInterceptorQualifier
+import uz.abbos.dilmurodjonov.todoapp.di.scope.AppScope
 import java.util.concurrent.TimeUnit
 
-class NetworkService(context: Context) {
+@Module
+class OkHttpModule {
 
-    private val client by lazy {
-        OkHttpClient.Builder()
+    @Provides
+    @AppScope
+    fun provideOkHttpClient(
+        @LoggingInterceptorQualifier loggingInterceptor: Interceptor,
+        @ChuckerInterceptorQualifier chuckerInterceptor: Interceptor,
+        @AuthInterceptorQualifier authInterceptor: Interceptor,
+    ): OkHttpClient {
+        return OkHttpClient.Builder()
             .connectTimeout(10, TimeUnit.SECONDS)
             .readTimeout(20, TimeUnit.SECONDS)
             .writeTimeout(20, TimeUnit.SECONDS)
-            .addInterceptor(provideHttpLoggingInterceptor())
-            .addInterceptor(provideChuckerInterceptor(context))
-            .addInterceptor(provideAuthInterceptor("SOME_TOKEN"))
+            .addInterceptor(loggingInterceptor)
+            .addInterceptor(chuckerInterceptor)
+            .addInterceptor(authInterceptor)
             .build()
     }
-    private fun provideHttpLoggingInterceptor(): Interceptor {
+
+    @Provides
+    @LoggingInterceptorQualifier
+    fun provideHttpLoggingInterceptor(): Interceptor {
         val interceptor = HttpLoggingInterceptor()
         interceptor.level = HttpLoggingInterceptor.Level.BODY
 
         return interceptor
     }
 
-    private fun provideChuckerInterceptor(context: Context): Interceptor {
+    @Provides
+    @ChuckerInterceptorQualifier
+    fun provideChuckerInterceptor(context: Context): Interceptor {
         val collector = ChuckerCollector(
             context = context,
             showNotification = true,
@@ -52,7 +68,9 @@ class NetworkService(context: Context) {
             .build()
     }
 
-    private fun provideAuthInterceptor(apiKey: String): Interceptor {
+    @Provides
+    @AuthInterceptorQualifier
+    fun provideAuthInterceptor(@ApiKeyQualifier apiKey: String): Interceptor {
         val interceptor = Interceptor {
             val request = it.request().newBuilder()
                 .addHeader("Content-Type", "application/json")
@@ -64,14 +82,4 @@ class NetworkService(context: Context) {
 
         return interceptor
     }
-
-    private val retrofit by lazy {
-        Retrofit.Builder()
-            .baseUrl("http://localhost:8080")
-            .client(client)
-            .addConverterFactory(GsonConverterFactory.create())
-            .build()
-    }
-
-     val taskService: TasksService = retrofit.create(TasksService::class.java)
 }

@@ -1,6 +1,7 @@
 package uz.abbos.dilmurodjonov.todoapp.ui.taskdetail
 
 import android.app.DatePickerDialog
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -12,19 +13,28 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import kotlinx.coroutines.launch
+import uz.abbos.dilmurodjonov.todoapp.appComponent
 import uz.abbos.dilmurodjonov.todoapp.databinding.FragmentTaskDetailBinding
 import java.util.*
+import javax.inject.Inject
 
 class TaskDetailFragment : Fragment() {
-    private val viewModel: TaskDetailViewModel by viewModels { TaskDetailViewModel.Factory }
+    private val viewModel: TaskDetailViewModel by viewModels { factory.get() }
     private val args: TaskDetailFragmentArgs by navArgs()
     private var _binding: FragmentTaskDetailBinding? = null
     private val binding get() = _binding!!
 
+    @Inject
+    lateinit var factory: dagger.Lazy<TaskDetailViewModelFactory>
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        context.appComponent.featureTaskDetailsComponent()
+            .build()
+            .inject(this)
+    }
+
     override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
         val binding = FragmentTaskDetailBinding.inflate(inflater, container, false)
         this._binding = binding
